@@ -7,7 +7,6 @@ import {
   Button,
   Typography,
   Box,
-  Alert,
   CircularProgress
 } from '@mui/material'
 import { useRegisterMutation } from '@/store/api/authApi'

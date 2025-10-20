@@ -105,11 +105,23 @@ const MediaLibraryPage = () => {
       }
     } else if (acceptedFiles.length > 1) {
       // Bulk upload
-      console.error('Bulk upload not implemented');
-      toast.error('Bulk upload is not yet implemented.');
+      const formData = new FormData();
+      acceptedFiles.forEach(file => {
+        formData.append('files', file);
+      });
+      if (currentFolder) {
+        formData.append('folder', currentFolder);
+      }
+
+      try {
+        await bulkUpload(formData).unwrap();
+        toast.success(`${acceptedFiles.length} files uploaded successfully`);
+      } catch {
+        toast.error('Failed to upload files');
+      }
     }
     setUploadDialogOpen(false);
-  }, [uploadMedia, currentFolder]);
+  }, [uploadMedia, bulkUpload, currentFolder]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
